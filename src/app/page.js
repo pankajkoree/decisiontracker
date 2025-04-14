@@ -1,6 +1,18 @@
+"use client";
+
 import Button from "@/components/Button";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
+  const gotoProfile = () => {
+    router.push("/profile");
+  };
+
+  const gotoCreateDecision = () => {
+    router.push("/createDecision");
+  };
   return (
     <div className="relative flex flex-col justify-center items-center gap-4">
       <h1 className="relative top-12 text-4xl font-semibold font-BungeeSpice uppercase xl:top-20 xl:text-6xl xl:font-bold bg-gradient-to-b from-yellow-400 to-red-600 bg-clip-text text-transparent">
@@ -17,8 +29,18 @@ export default function Home() {
         outcomes.
       </p>
       <div className="relative flex flex-col top-20 gap-4 items-center xl:flex-row xl:justify-center xl:top-44">
-        <Button text="User Profile" />
-        <Button text="Create New Decision" />
+        <div
+          onClick={gotoProfile}
+          className="hover:cursor-pointer w-full xl:w-auto"
+        >
+          <Button text="User Profile" />
+        </div>
+        <div
+          onClick={gotoCreateDecision}
+          className="hover:cursor-pointer w-full xl:w-auto"
+        >
+          <Button text="Create New Decision" />
+        </div>
       </div>
     </div>
   );
