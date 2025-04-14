@@ -15,25 +15,12 @@ const Signup = () => {
     confirmPassword: "",
   });
 
-  const [newUserData, setNewUserData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
   useEffect(() => {
-    if (
-      user.password &&
-      user.confirmPassword &&
-      user.password === user.confirmPassword
-    ) {
-      setNewUserData({
-        username: user.username,
-        email: user.email,
-        password: user.password,
-      });
+    const isLoggedIn = document.cookie.includes("authToken");
+    if (isLoggedIn) {
+      router.push("/profile");
     }
-  }, [user]);
+  }, []);
 
   const [error, setError] = useState("");
 
@@ -50,13 +37,17 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post("/api/user/signup", newUserData);
-      toast.success("Successfully signed up");
-      router.push("/login");
-    } catch {
-      toast.error("Signup failed");
-    }
+
+    const newUserData = {
+      username: user.username,
+      email: user.email,
+      password: user.password,
+    };
+
+    document.cookie = `authToken=${JSON.stringify(newUserData)}; path=/`;
+
+    toast.success("Successfully signed up");
+    router.push("/login");
   };
 
   const gotoLogin = () => {
