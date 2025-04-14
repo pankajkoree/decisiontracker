@@ -15,19 +15,21 @@ const Signup = () => {
     confirmPassword: "",
   });
 
+  const [error, setError] = useState(""); // For general error message
+
   useEffect(() => {
-    const isLoggedIn = document.cookie.includes("authToken");
-    if (isLoggedIn) {
+    const isAuthToken = document.cookie.includes("authToken");
+    const isLoggedIn = document.cookie.includes("isLoggedIn");
+    if (isAuthToken && isLoggedIn) {
       router.push("/profile");
     }
-  }, []);
-
-  const [error, setError] = useState("");
+  }, [router]);
 
   const handleConfirmPassword = (e) => {
     const confirmPassword = e.target.value;
     setUser({ ...user, confirmPassword });
 
+    // Password mismatch check
     if (confirmPassword !== user.password) {
       setError("Passwords do not match");
     } else {
@@ -38,19 +40,39 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validation: Check if all fields are filled
+    if (
+      !user.username ||
+      !user.email ||
+      !user.password ||
+      !user.confirmPassword
+    ) {
+      setError("Please fill in all fields.");
+      return;
+    }
+
+    // Validation: Check if passwords match
+    if (user.password !== user.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    // Set authToken in cookies after validation
     const newUserData = {
       username: user.username,
       email: user.email,
       password: user.password,
     };
 
-    document.cookie = `authToken=${JSON.stringify(newUserData)}; path=/`;
+    document.cookie = `authToken=${JSON.stringify(
+      newUserData
+    )}; path=/; max-age=${60 * 60 * 24 * 7}`;
 
+    // Clear any previous errors and show success message
+    setError("");
     toast.success("Successfully signed up");
-    router.push("/login");
-  };
 
-  const gotoLogin = () => {
+    // Redirect to login page after successful signup
     router.push("/login");
   };
 
@@ -120,14 +142,6 @@ const Signup = () => {
             className="border-2 p-2 sm:p-3 bg-blue-500 mt-3 hover:bg-green-600 text-white transition-all duration-500 ease-in-out rounded-sm text-sm sm:text-base"
           >
             Signup
-          </button>
-
-          {/* Login redirect */}
-          <button className="text-xs sm:text-sm mt-4" onClick={gotoLogin}>
-            Already have an account?{" "}
-            <span className="text-gray-600 font-bold underline hover:text-green-300">
-              Login
-            </span>
           </button>
         </form>
       </div>

@@ -12,19 +12,49 @@ const Login = () => {
   });
 
   useEffect(() => {
-    const isLoggedIn = document.cookie.includes("authToken");
-    if (isLoggedIn) {
+    // Check for the presence of the authToken and isLoggedIn cookies on page load
+    const authToken = document.cookie.includes("authToken");
+    const isLoggedIn = document.cookie.includes("isLoggedIn=true");
+
+    // If both are found, redirect to profile
+    if (authToken && isLoggedIn) {
       router.push("/profile");
     }
-  }, []);
+  }, [router]);
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    document.cookie = `authToken=${JSON.stringify(user)}; path=/`;
+    // Retrieve the stored authToken (if it exists)
+    const storedAuthToken = document.cookie
+      .split("; ")
+      .find((cookie) => cookie.startsWith("authToken="))
+      ?.split("=")[1];
 
-    toast.success("Login successful");
-    router.push("/profile");
+    if (storedAuthToken) {
+      const parsedToken = JSON.parse(decodeURIComponent(storedAuthToken));
+
+      // Check if the email and password match the stored credentials
+      if (
+        user.email === parsedToken.email &&
+        user.password === parsedToken.password
+      ) {
+        // If credentials match, set the isLoggedIn cookie and redirect
+        document.cookie = `authToken=${JSON.stringify(
+          parsedToken
+        )}; path=/; max-age=${60 * 60 * 24 * 7}`; // Set for 7 days
+        document.cookie = `isLoggedIn=true; path=/; max-age=${
+          60 * 60 * 24 * 7
+        }`; // Set for 7 days
+
+        toast.success("Login successful");
+        router.push("/profile");
+      } else {
+        toast.error("Invalid email or password");
+      }
+    } else {
+      toast.error("No account found. Please sign up first.");
+    }
   };
 
   const gotoSignup = () => {
