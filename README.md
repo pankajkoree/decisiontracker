@@ -44,11 +44,11 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
         -> Without decisions list
 
-    ![Without Decisions List](./public/decision%20history%20page%20when%20no%20decisions%20are%20there.png)
+    ![Without Decisions List](./public/decison%20history%20page%20when%20no%20decisions%20are%20there.png)
 
         -> With decisions list
 
-    ![Wit Decisions List](./public/decision%20history%20page%20when%20decisions%20are%20there.png)
+    ![Wit Decisions List](./public/decison%20history%20page%20when%20decisions%20are%20there.png)
 
        <br>
        (B) Create New Decision - to add new decision and i made it in two part as
