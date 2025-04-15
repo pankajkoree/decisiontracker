@@ -12,11 +12,9 @@ const Login = () => {
   });
 
   useEffect(() => {
-    // Check for the presence of the authToken and isLoggedIn cookies on page load
     const authToken = document.cookie.includes("authToken");
     const isLoggedIn = document.cookie.includes("isLoggedIn=true");
 
-    // If both are found, redirect to profile
     if (authToken && isLoggedIn) {
       router.push("/profile");
     }
@@ -25,7 +23,6 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Retrieve the stored authToken (if it exists)
     const storedAuthToken = document.cookie
       .split("; ")
       .find((cookie) => cookie.startsWith("authToken="))
@@ -34,18 +31,16 @@ const Login = () => {
     if (storedAuthToken) {
       const parsedToken = JSON.parse(decodeURIComponent(storedAuthToken));
 
-      // Check if the email and password match the stored credentials
       if (
         user.email === parsedToken.email &&
         user.password === parsedToken.password
       ) {
-        // If credentials match, set the isLoggedIn cookie and redirect
         document.cookie = `authToken=${JSON.stringify(
           parsedToken
-        )}; path=/; max-age=${60 * 60 * 24 * 7}`; // Set for 7 days
+        )}; path=/; max-age=${60 * 60 * 24 * 7}`;
         document.cookie = `isLoggedIn=true; path=/; max-age=${
           60 * 60 * 24 * 7
-        }`; // Set for 7 days
+        }`;
 
         toast.success("Login successful");
         router.push("/profile");

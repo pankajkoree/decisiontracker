@@ -15,7 +15,7 @@ const Signup = () => {
     confirmPassword: "",
   });
 
-  const [error, setError] = useState(""); // For general error message
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const isAuthToken = document.cookie.includes("authToken");
@@ -29,7 +29,6 @@ const Signup = () => {
     const confirmPassword = e.target.value;
     setUser({ ...user, confirmPassword });
 
-    // Password mismatch check
     if (confirmPassword !== user.password) {
       setError("Passwords do not match");
     } else {
@@ -40,7 +39,6 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validation: Check if all fields are filled
     if (
       !user.username ||
       !user.email ||
@@ -51,13 +49,11 @@ const Signup = () => {
       return;
     }
 
-    // Validation: Check if passwords match
     if (user.password !== user.confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
 
-    // Set authToken in cookies after validation
     const newUserData = {
       username: user.username,
       email: user.email,
@@ -68,11 +64,9 @@ const Signup = () => {
       newUserData
     )}; path=/; max-age=${60 * 60 * 24 * 7}`;
 
-    // Clear any previous errors and show success message
     setError("");
     toast.success("Successfully signed up");
 
-    // Redirect to login page after successful signup
     router.push("/login");
   };
 
