@@ -4,9 +4,12 @@ import Input from "@/components/Input";
 import Label from "@/components/Label";
 import TextArea from "@/components/TextArea";
 import DecisionToggle from "@/components/Toggle";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const CreateDecision = () => {
+  const router = useRouter();
   const [isMade, setIsMade] = useState(false);
   const [data, setData] = useState({
     title: "",
@@ -26,19 +29,54 @@ const CreateDecision = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    let isValid = true;
+
     if (data.title === "") {
       setIsTitle("title is required");
+      isValid = false;
     }
 
     if (isMade && data.finalChoice === "") {
       setIsFinalChoice("final choice is required");
+      isValid = false;
     }
 
     if (isMade && data.reasonForChoice === "") {
       setIsReasonForChoice("reason is required");
+      isValid = false;
     }
+
+    if (!isValid) return;
+    const newDecision = {
+      ...data,
+      date: new Date().toLocaleString(),
+      isMade: isMade,
+    };
     try {
-    } catch (error) {}
+      const storedDecisions =
+        JSON.parse(localStorage.getItem("decisions")) || [];
+
+      const updatedDecisions = [newDecision, ...storedDecisions];
+
+      localStorage.setItem("decisions", JSON.stringify(updatedDecisions));
+      setData({
+        title: "",
+        date: "",
+        pros: "",
+        cons: "",
+        isMade: false,
+        finalChoice: "",
+        reasonForChoice: "",
+        isGoodDecision: "",
+      });
+
+      setIsMade(false);
+
+      toast.success("Decision submitted");
+      router.push("/decisionHistory");
+    } catch (error) {
+      toast.error("Failed to submit decision");
+    }
   };
 
   return (
