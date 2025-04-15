@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
 
-  const gotoProfile = () => {
-    router.push("/profile");
+  const gotoDecisionHistory = () => {
+    router.push("/decisionHistory");
   };
 
   const gotoCreateDecision = () => {
@@ -30,10 +30,10 @@ export default function Home() {
       </p>
       <div className="relative flex flex-col top-20 gap-4 items-center xl:flex-row xl:justify-center xl:top-44">
         <div
-          onClick={gotoProfile}
+          onClick={gotoDecisionHistory}
           className="hover:cursor-pointer w-full xl:w-auto"
         >
-          <Button text="User Profile" />
+          <Button text="Decision History" />
         </div>
         <div
           onClick={gotoCreateDecision}

@@ -9,7 +9,7 @@ const DecisionToggle = ({ value = false, onChange }) => {
     <div className="flex items-center space-x-4">
       {/* Toggle Button */}
       <div
-        className={`relative w-24 h-12 rounded-full cursor-pointer transition-colors duration-300 ${
+        className={`relative w-24 h-10 rounded-full cursor-pointer transition-colors duration-300 ${
           value ? "bg-green-500" : "bg-red-500"
         }`}
         onClick={handleToggle}
