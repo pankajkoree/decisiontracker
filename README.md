@@ -76,3 +76,33 @@ I tried to implement authentication process using localStorage but due to overbu
 (B) Manual filter or sorting - allowing users to manually sort or filter out the decisions, based on date, or based on priority.
 
 (C) Editable decision - allowing users to be able to update the decision or even if deleting option for particular decisions.
+
+## Some screenshots in different devices
+
+(A) Mobile device - iphone 11
+
+1. Landing Page
+   ![Landing page ](./public/iphone1.jpg)
+
+2. Without decisions
+   ![without decisions ](./public/iphone2.jpg)
+
+3. With decisions
+   ![with decisions ](./public/iphone4.jpg)
+
+4. Create decisions
+   ![create decisions ](./public/iphone3.jpg)
+
+(B) Mac book m1
+
+1. Landing Page
+   ![Landing page ](./public/mac1.png)
+
+2. Without decisions
+   ![without decisions ](./public/mac2.png)
+
+3. With decisions
+   ![with decisions ](./public/mac4.png)
+
+4. Create decisions
+   ![create decisions ](./public/mac3.png)
